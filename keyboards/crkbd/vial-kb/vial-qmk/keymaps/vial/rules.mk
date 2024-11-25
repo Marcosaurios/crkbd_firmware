@@ -1,4 +1,18 @@
-VIA_ENABLE         = yes
+VIA_ENABLE        = yes
 VIAL_ENABLE        = yes
 VIALRGB_ENABLE     = yes
+
 ENCODER_MAP_ENABLE = yes
+OLED_ENABLED       = yes
+
+RGBLIGHT_ENABLE = no
+RGB_MATRIX_DRIVER = ws2812
+
+# Tap dance for ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS)
+TAP_DANCE_ENABLE = yes
+
+# For layer 3 (NUMBERS) when MO(1) + MO(2) are pressed together
+TRI_LAYER_ENABLE = yes
+TRI_LAYER_LOWER_LAYER = 1   # _SELECTION layer
+TRI_LAYER_UPPER_LAYER = 2   # _SYMBOLS layer
+TRI_LAYER_ADJUST_LAYER = 3 	# _NUMBERS layer enabled IF _SELECTION + _SYMBOLS are pressed
