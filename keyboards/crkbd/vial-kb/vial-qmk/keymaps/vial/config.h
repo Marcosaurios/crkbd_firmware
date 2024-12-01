@@ -4,6 +4,13 @@
 #define VIAL_UNLOCK_COMBO_ROWS {0, 0}
 #define VIAL_UNLOCK_COMBO_COLS {0, 1}
 
+// For MOD-TAP HomeRows
+// Configure the global tapping term (default: 200ms)
+// #define TAPPING_TERM 1000
+
+// Enable rapid switch from tap to hold, disables double tap hold auto-repeat.
+// #define QUICK_TAP_TERM 0
+
 #define RGB_MATRIX_SLEEP
 #define RGB_MATRIX_FRAMEBUFFER_EFFECTS
 #define RGB_MATRIX_KEYPRESSES
