@@ -28,10 +28,21 @@ enum layer_names {
 };
 
 // Home Row mods STICKY
-#define HR_CTL OSM(MOD_LCTL)
-#define HR_SFT OSM(MOD_LSFT)
-#define HR_ALT OSM(MOD_LALT)
-#define HR_GUI OSM(MOD_LGUI)
+// #define HR_CTL OSM(MOD_LCTL)
+// #define HR_SFT OSM(MOD_LSFT)
+// #define HR_ALT OSM(MOD_LALT)
+// #define HR_GUI OSM(MOD_LGUI)
+// Home row mods mod taps
+#define HR_SFT_A LSFT_T(KC_A)
+#define HR_ALT_S LALT_T(KC_S)
+#define HR_GUI_D LGUI_T(KC_D)
+#define HR_CTL_F LCTL_T(KC_F)
+
+#define HR_CTL_J LCTL_T(KC_J)
+#define HR_GUI_K LGUI_T(KC_K)
+#define HR_ALT_L LALT_T(KC_L)
+#define HR_SFT_SC LSFT_T(KC_SCLN)
+
 void oneshot_mods_changed_user(uint8_t mods) {
   if (mods & MOD_MASK_SHIFT) {
     oled_set_cursor(0,6);
@@ -64,7 +75,7 @@ enum {
 #define TD_FN_GM TD(TD_FN_GAME)
 // If using VIAL, use this function. Otherwise, uncomment tap_dance_actions_user
 #ifdef VIAL_ENABLE
-void keyboard_post_init_user(void) {    
+void keyboard_post_init_user(void) {
     #ifdef TAP_DANCE_ENABLE
     #define TAP_TAPPING_TERM 200
     vial_tap_dance_entry_t td0 = { 
@@ -90,6 +101,7 @@ void keyboard_post_init_user(void) {
 tap_dance_action_t tap_dance_actions_user[] = {
     // Tap once for Escape, twice for Caps Lock
     [TD_LSFT_CAPS] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
+    // Tap once for FN layer, twice for toggling GAME layer
     [TD_FN_GAME] = ACTION_TAP_DANCE_DOUBLE(MO(_FUNCTIONS),TG(_GAME))
 };
 #endif
@@ -103,15 +115,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------+--------'  `--------+--------+--------+--------+--------+--------+--------|
       KC_LCTL,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_ESC,
   //|--------+--------+--------+--------+--------+--------+--------.  ,--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI, TL_UPPR,  KC_SPC,MO(_FUNCTIONS), TL_LOWR, KC_LEFT_ALT
+                                          KC_LGUI, TL_UPPR,  KC_SPC, MO(_FUNCTIONS), TL_LOWR, KC_LEFT_ALT
                                       //`--------------------------'  `--------------------------'
   ),
   
 [_SELECTION] = LAYOUT_split_3x6_3_ex2(
   //,--------------------------------------------------------------.  ,--------------------------------------------------------------.
-      _______, _______, _______, _______, _______, _______, XXXXXXX,    _______, _______, _______,   KC_UP, _______, _______, KC_DEL,
+      _______, _______, _______, _______, _______, _______, XXXXXXX,    _______, _______, _______,   KC_UP, _______, _______, KC_BSPC,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-      _______,  HR_SFT,  HR_ALT,  HR_GUI,  HR_CTL, _______, XXXXXXX,    _______, _______, KC_LEFT, KC_DOWN,KC_RIGHT, _______, _______,
+      _______,HR_SFT_A,HR_ALT_S,HR_GUI_D,HR_CTL_F, _______, XXXXXXX,    _______, _______, KC_LEFT, KC_DOWN,KC_RIGHT, _______, _______,
   //|--------+--------+--------+--------+--------+--------+--------'  `--------+--------+--------+--------+--------+--------+--------|
       _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
   //|--------+--------+--------+--------+--------+--------+--------.  ,--------+--------+--------+--------+--------+--------+--------|
@@ -119,44 +131,44 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
   ),
 
-  [_SYMBOLS] = LAYOUT_split_3x6_3_ex2(
+[_SYMBOLS] = LAYOUT_split_3x6_3_ex2(
   //,--------------------------------------------------------------.  ,--------------------------------------------------------------.
       _______, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC, XXXXXXX,    KC_RCTL, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-      _______, _______, _______, _______, _______, _______, XXXXXXX,    QK_BOOT, KC_MINS,  KC_EQL, KC_LBRC, KC_RBRC, KC_BSLS,  KC_GRV,
+      _______,HR_SFT_A,HR_ALT_S,HR_GUI_D,HR_CTL_F, _______, XXXXXXX,    QK_BOOT, KC_EQL,  KC_LPRN, KC_LCBR, KC_LBRC, KC_MINS,  KC_GRV,
   //|--------+--------+--------+--------+--------+--------+--------'  `--------+--------+--------+--------+--------+--------+--------|
-      _______, _______, _______, _______, _______, _______,                      KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, KC_TILD,
+      _______, _______, _______, KC_BSLS, KC_PIPE, KC_AMPR,                      KC_PLUS, KC_RPRN, KC_RCBR, KC_RBRC, KC_UNDS, KC_TILD,
   //|--------+--------+--------+--------+--------+--------+--------.  ,--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,    _______, _______, _______
+                                          _______, _______, KC_ENT,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
-  [_NUMBERS] = LAYOUT_split_3x6_3_ex2(
+[_NUMBERS] = LAYOUT_split_3x6_3_ex2(
   //,--------------------------------------------------------------.  ,--------------------------------------------------------------.
-      QK_BOOT,   KC_F7,   KC_F8,   KC_F9,  KC_F10, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX,    KC_7,    KC_8,    KC_9,    KC_0, XXXXXXX,
+      QK_BOOT,   KC_F7,   KC_F8,   KC_F9,  KC_F10, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX,    KC_7,    KC_8,    KC_9,    KC_0,  KC_DEL,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
       RGB_TOG,   KC_F4,   KC_F5,   KC_F6,  KC_F11, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX,    KC_4,    KC_5,    KC_6, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------'  `--------+--------+--------+--------+--------+--------+--------|
       RGB_MOD,   KC_F1,   KC_F2,   KC_F3,  KC_F12, XXXXXXX,                      XXXXXXX,    KC_1,    KC_2,    KC_3, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------.  ,--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,    _______, _______,    KC_0
+                                          _______, _______, KC_ENT,    _______, _______,     KC_0
                                       //`--------------------------'  `--------------------------'
   ),
 
 // TODO WIP
-  [_FUNCTIONS] = LAYOUT_split_3x6_3_ex2(
+[_FUNCTIONS] = LAYOUT_split_3x6_3_ex2(
   //,--------------------------------------------------------------.  ,--------------------------------------------------------------.
        EE_CLR, _______, _______, _______, _______, _______, XXXXXXX,    _______, _______, _______, _______, _______, _______, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-      _______,  HR_SFT,  HR_ALT,  HR_GUI,  HR_CTL, _______, XXXXXXX,    XXXXXXX, _______,  HR_CTL,  HR_GUI,  HR_ALT,  HR_SFT, _______,
+      _______,HR_SFT_A,HR_ALT_S,HR_GUI_D,HR_CTL_F, _______, XXXXXXX,    XXXXXXX, _______,HR_CTL_J,HR_GUI_K,HR_ALT_L,HR_SFT_SC, _______,
   //|--------+--------+--------+--------+--------+--------+--------'  `--------+--------+--------+--------+--------+--------+--------|
       _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
   //|--------+--------+--------+--------+--------+--------+--------.  ,--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,    _______, _______, _______
+                                          _______, _______, KC_ENT,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
-  [_GAME] = LAYOUT_split_3x6_3_ex2(
+[_GAME] = LAYOUT_split_3x6_3_ex2(
   //,--------------------------------------------------------------.  ,--------------------------------------------------------------.
        KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T, XXXXXXX,    KC_MPLY,    KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -167,7 +179,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                           KC_LGUI, TL_UPPR,  KC_SPC,     KC_ENT, TL_LOWR, KC_LEFT_ALT
                                       //`--------------------------'  `--------------------------'
   ),
-
 };
 
 #ifdef OLED_ENABLE
@@ -207,7 +218,7 @@ bool oled_task_user(void) {
             break;
         case _FUNCTIONS:
             oled_set_cursor(0,4);
-            oled_write_ln_P(PSTR("FN"), false);
+            oled_write_ln_P(PSTR("CTRL"), false);
             break;
         case _GAME:
             oled_set_cursor(0,5);
@@ -264,7 +275,7 @@ bool shutdown_user(bool jump_to_bootloader) {
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
   [_BASE] = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX), ENCODER_CCW_CW(XXXXXXX, XXXXXXX), ENCODER_CCW_CW(KC_VOLU, KC_VOLD), ENCODER_CCW_CW(XXXXXXX, XXXXXXX), },
   [_SELECTION] = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX), ENCODER_CCW_CW(XXXXXXX, XXXXXXX), ENCODER_CCW_CW(RGB_VAI, RGB_VAD), ENCODER_CCW_CW(XXXXXXX, XXXXXXX), },
-  [_SYMBOLS] = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX), ENCODER_CCW_CW(XXXXXXX, XXXXXXX), ENCODER_CCW_CW(RGB_VAD, RGB_VAI), ENCODER_CCW_CW(XXXXXXX, XXXXXXX), },
+  [_SYMBOLS] = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX), ENCODER_CCW_CW(XXXXXXX, XXXXXXX), ENCODER_CCW_CW(UG_NEXT, UG_PREV), ENCODER_CCW_CW(XXXXXXX, XXXXXXX), },
   [_NUMBERS] = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX), ENCODER_CCW_CW(XXXXXXX, XXXXXXX), ENCODER_CCW_CW(RGB_VAD, RGB_VAI), ENCODER_CCW_CW(XXXXXXX, XXXXXXX), },
   [_FUNCTIONS] = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX), ENCODER_CCW_CW(XXXXXXX, XXXXXXX), ENCODER_CCW_CW(RGB_VAD, RGB_VAI), ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
   [_GAME] = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX), ENCODER_CCW_CW(XXXXXXX, XXXXXXX), ENCODER_CCW_CW(RGB_VAD, RGB_VAI), ENCODER_CCW_CW(XXXXXXX, XXXXXXX) }
